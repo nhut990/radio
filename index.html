@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Radio VOH</title>
+    <meta name="apple-mobile-web-app-title" content="Radio VOH">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Icon cho màn hình chính (Safari iOS, dùng SVG) -->
+    <link rel="icon" href="https://raw.githubusercontent.com/Nhut11790/files/refs/heads/main/hinh/Logo_of_VOH.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Nhut11790/files/refs/heads/main/hinh/Logo_of_VOH.svg">
+    <style>
+        body { font-family: sans-serif; background: #f7f7f7; padding: 20px; }
+        .player-container { background: #fff; box-shadow: 0 2px 8px #dedede; border-radius: 10px; padding: 18px; max-width: 350px; margin: 0 auto; }
+        label, select, button { font-size: 18px; margin-bottom: 10px; }
+        #playBtn[disabled] { opacity: 0.5; pointer-events: none; }
+        .logo-voh { width: 100px; display: block; margin: 0 auto 15px; }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <img src="https://raw.githubusercontent.com/Nhut11790/files/refs/heads/main/hinh/Logo_of_VOH.svg" class="logo-voh" alt="Radio VOH">
+        <h2>Nghe Radio VOH</h2>
+        <label for="radioSelect">Chọn kênh radio:</label><br>
+        <select id="radioSelect">
+            <option value="https://strm.voh.com.vn/radio/channel3/playlist.m3u8">VOH FM 99.9</option>
+            <option value="https://strm.voh.com.vn/radio/channel1/playlist.m3u8">VOH FM 95.6</option>
+            <option value="https://strm.voh.com.vn/radio/channel5/playlist.m3u8">VOH FM 87.7</option>
+            <option value="https://strm.voh.com.vn/radio/channel2/playlist.m3u8">VOH AM 610</option>
+        </select>
+        <br><br>
+        <button id="playBtn">Bắt đầu phát</button>
+        <br><br>
+        <audio id="audio" controls style="width:100%;"></audio>
+    </div>
+    <script>
+        var audio = document.getElementById('audio');
+        var radioSelect = document.getElementById('radioSelect');
+        var playBtn = document.getElementById('playBtn');
+
+        // Trạng thái: lần đầu phát chưa?
+        var isStarted = false;
+
+        // Set initial src, chưa tự động phát
+        audio.src = radioSelect.value;
+
+        // Sự kiện đổi kênh radio
+        radioSelect.onchange = function () {
+            audio.src = radioSelect.value;
+            audio.load();
+            // Nếu đã từng bấm bắt đầu phát, thì tự phát luôn khi đổi kênh
+            if (isStarted) {
+                audio.play();
+            }
+        };
+
+        // Lần đầu bấm nút phát: phát kênh đang chọn, ẩn mờ nút luôn
+        playBtn.onclick = function () {
+            audio.src = radioSelect.value;
+            audio.load();
+            audio.play();
+            isStarted = true;
+            playBtn.disabled = true;
+        };
+    </script>
+</body>
+</html>
