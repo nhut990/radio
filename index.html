@@ -8,11 +8,79 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/nhut990/files/refs/heads/main/hinh/Logo_of_VOH.png">
     <style>
-        body { font-family: sans-serif; background: #f7f7f7; padding: 20px; }
-        .player-container { background: #fff; box-shadow: 0 2px 8px #dedede; border-radius: 10px; padding: 18px; max-width: 350px; margin: 0 auto; }
-        label, select, button { font-size: 18px; margin-bottom: 10px; }
-        #playBtn[disabled] { opacity: 0.5; pointer-events: none; }
-        .logo-voh { width: 100px; display: block; margin: 0 auto 15px; }
+        body {
+            font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #b7d8ff 0%, #e0c3fc 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .player-container {
+            background: rgba(255,255,255, 0.80);
+            box-shadow: 0 4px 24px 0 rgba(100, 100, 180, 0.08);
+            border-radius: 18px;
+            padding: 32px 22px 28px 22px;
+            max-width: 380px;
+            width: 100%;
+            margin: 36px 0;
+            backdrop-filter: blur(2px);
+        }
+        label, select, button {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #3652aa;
+        }
+        #playBtn {
+            background: linear-gradient(90deg, #59c4fc 0%, #b18aff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-weight: 600;
+            padding: 10px 0;
+            width: 100%;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 8px 0 rgba(131, 120, 200, 0.10);
+        }
+        #playBtn:hover:not([disabled]) {
+            background: linear-gradient(90deg, #3666b1 0%, #9d5af7 100%);
+            box-shadow: 0 2px 12px 0 rgba(90, 120, 180, 0.12);
+        }
+        #playBtn[disabled] {
+            opacity: 0.50;
+            pointer-events: none;
+            background: #aaa;
+        }
+        select {
+            width: 100%;
+            padding: 7px 6px;
+            border-radius: 5px;
+            border: 1px solid #dbe9ff;
+            box-shadow: 0 1px 4px rgba(90, 140, 200, 0.04);
+            background-color: #f7fbff;
+        }
+        .logo-voh {
+            width: 90px;
+            display: block;
+            margin: 0 auto 11px auto;
+            filter: drop-shadow(0 2px 4px rgba(100,120,180,0.18));
+            border-radius: 15px;
+        }
+        audio {
+            margin-top: 22px;
+            width: 100%;
+            background: #f7fbff;
+            border-radius: 6px;
+            box-shadow: 0 1px 7px rgba(130, 120, 180, 0.05);
+        }
     </style>
 </head>
 <body>
@@ -28,8 +96,7 @@
         </select>
         <br><br>
         <button id="playBtn">Bắt đầu phát</button>
-        <br><br>
-        <audio id="audio" controls style="width:100%;"></audio>
+        <audio id="audio" controls></audio>
     </div>
     <script>
         var audio = document.getElementById('audio');
