@@ -1,132 +1,220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Radio VOH</title>
-    <meta name="apple-mobile-web-app-title" content="Radio VOH">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/nhut990/files/refs/heads/main/hinh/Logo_of_VOH.png">
-    <style>
-        body {
-            font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
-            background: linear-gradient(135deg, #b7d8ff 0%, #e0c3fc 100%);
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .player-container {
-            background: rgba(255,255,255, 0.80);
-            box-shadow: 0 4px 24px 0 rgba(100, 100, 180, 0.08);
-            border-radius: 18px;
-            padding: 32px 22px 28px 22px;
-            max-width: 380px;
-            width: 100%;
-            margin: 36px 0;
-            backdrop-filter: blur(2px);
-        }
-        label, select, button {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #3652aa;
-        }
-        #playBtn {
-            background: linear-gradient(90deg, #59c4fc 0%, #b18aff 100%);
-            color: #fff;
-            border: none;
-            border-radius: 7px;
-            font-weight: 600;
-            padding: 10px 0;
-            width: 100%;
-            cursor: pointer;
-            transition: background 0.2s, box-shadow 0.2s;
-            box-shadow: 0 1px 8px 0 rgba(131, 120, 200, 0.10);
-        }
-        #playBtn:hover:not([disabled]) {
-            background: linear-gradient(90deg, #3666b1 0%, #9d5af7 100%);
-            box-shadow: 0 2px 12px 0 rgba(90, 120, 180, 0.12);
-        }
-        #playBtn[disabled] {
-            opacity: 0.50;
-            pointer-events: none;
-            background: #aaa;
-        }
-        select {
-            width: 100%;
-            padding: 7px 6px;
-            border-radius: 5px;
-            border: 1px solid #dbe9ff;
-            box-shadow: 0 1px 4px rgba(90, 140, 200, 0.04);
-            background-color: #f7fbff;
-        }
-        .logo-voh {
-            width: 90px;
-            display: block;
-            margin: 0 auto 11px auto;
-            filter: drop-shadow(0 2px 4px rgba(100,120,180,0.18));
-            border-radius: 15px;
-        }
-        audio {
-            margin-top: 22px;
-            width: 100%;
-            background: #f7fbff;
-            border-radius: 6px;
-            box-shadow: 0 1px 7px rgba(130, 120, 180, 0.05);
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Radio VOH</title>
+  <meta name="apple-mobile-web-app-title" content="Radio VOH" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/nhut990/files/refs/heads/main/hinh/Logo_of_VOH.png">
+  <style>
+    body {
+      font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #b7d8ff 0%, #e0c3fc 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .player-container {
+      background: rgba(255,255,255, 0.86);
+      box-shadow: 0 4px 24px 0 rgba(100, 100, 180, 0.08);
+      border-radius: 18px;
+      padding: 28px 22px;
+      max-width: 420px;
+      width: 100%;
+      margin: 36px;
+      backdrop-filter: blur(2px);
+    }
+    label, select, button { font-size: 18px; margin-bottom: 8px; }
+    h2 { text-align: center; margin-bottom: 14px; color: #3652aa; }
+    #playBtn {
+      background: linear-gradient(90deg, #59c4fc 0%, #b18aff 100%);
+      color: #fff; border: none; border-radius: 7px; font-weight: 600;
+      padding: 10px 0; width: 100%; cursor: pointer;
+    }
+    #playBtn[disabled] { opacity: 0.5; pointer-events: none; background: #aaa; }
+    select { width:100%; padding:7px 6px; border-radius:5px; border:1px solid #dbe9ff; background:#f7fbff; }
+    .logo-voh { width:90px; display:block; margin:0 auto 11px; border-radius:15px; }
+    audio { margin-top:16px; width:100%; background:#f7fbff; border-radius:6px; }
+    #status { margin-top:10px; font-size:14px; color:#334; min-height:1.2em; }
+    .station-name { text-align:center; font-weight:600; color:#2a3b78; margin-bottom:8px; }
+  </style>
 </head>
 <body>
-    <div class="player-container">
-        <img src="https://raw.githubusercontent.com/nhut990/files/refs/heads/main/hinh/Logo_of_VOH.png" class="logo-voh" alt="Radio VOH">
-        <h2>Nghe Radio VOH</h2>
-        <label for="radioSelect">Chọn kênh radio:</label><br>
-        <select id="radioSelect">
-            <option value="https://strm.voh.com.vn/radio/channel3/playlist.m3u8">VOH FM 99.9</option>
-            <option value="https://strm.voh.com.vn/radio/channel1/playlist.m3u8">VOH FM 95.6</option>
-            <option value="https://strm.voh.com.vn/radio/channel5/playlist.m3u8">VOH FM 87.7</option>
-            <option value="https://strm.voh.com.vn/radio/channel2/playlist.m3u8">VOH AM 610</option>
-        </select>
-        <br><br>
-        <button id="playBtn">Bắt đầu phát</button>
-        <audio id="audio" controls></audio>
-    </div>
-    <script>
-        var audio = document.getElementById('audio');
-        var radioSelect = document.getElementById('radioSelect');
-        var playBtn = document.getElementById('playBtn');
+  <div class="player-container" role="region" aria-label="Radio VOH player">
+    <img src="https://raw.githubusercontent.com/nhut990/files/refs/heads/main/hinh/Logo_of_VOH.png" class="logo-voh" alt="Logo Radio VOH">
+    <h2>Nghe Radio VOH</h2>
 
-        // Trạng thái: lần đầu phát chưa?
-        var isStarted = false;
+    <div class="station-name" id="stationName">VOH FM 99.9</div>
 
-        // Set initial src, chưa tự động phát
-        audio.src = radioSelect.value;
+    <label for="radioSelect">Chọn kênh radio:</label><br>
+    <select id="radioSelect" aria-label="Chọn kênh radio">
+      <option value="https://strm.voh.com.vn/radio/channel3/playlist.m3u8">VOH FM 99.9</option>
+      <option value="https://strm.voh.com.vn/radio/channel1/playlist.m3u8">VOH FM 95.6</option>
+      <option value="https://strm.voh.com.vn/radio/channel5/playlist.m3u8">VOH FM 87.7</option>
+      <option value="https://strm.voh.com.vn/radio/channel2/playlist.m3u8">VOH AM 610</option>
+    </select>
+    <br><br>
 
-        // Sự kiện đổi kênh radio
-        radioSelect.onchange = function () {
-            audio.src = radioSelect.value;
-            audio.load();
-            // Nếu đã từng bấm bắt đầu phát, thì tự phát luôn khi đổi kênh
-            if (isStarted) {
-                audio.play();
+    <button id="playBtn" aria-pressed="false">Bắt đầu phát</button>
+
+    <audio id="audio" controls preload="none" aria-live="polite"></audio>
+
+    <div id="status" role="status" aria-live="polite"></div>
+  </div>
+
+  <!-- chỉ tải hls.js nếu cần (browsers không hỗ trợ HLS native) -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.0/dist/hls.min.js"></script>
+  <script>
+    (function () {
+      const audio = document.getElementById('audio');
+      const radioSelect = document.getElementById('radioSelect');
+      const playBtn = document.getElementById('playBtn');
+      const statusEl = document.getElementById('status');
+      const stationNameEl = document.getElementById('stationName');
+
+      let hls = null;
+      let isPlaying = false;
+
+      // detect iOS devices (iPhone / iPad / iPod)
+      const isiOS = /iP(hone|od|ad)/.test(navigator.userAgent) && !window.MSStream;
+
+      stationNameEl.textContent = radioSelect.options[radioSelect.selectedIndex].text;
+      statusEl.textContent = '';
+
+      function setStatus(msg) { statusEl.textContent = msg; }
+
+      function destroyHls() {
+        if (hls) {
+          try { hls.destroy(); } catch (e) {}
+          hls = null;
+        }
+      }
+
+      // IMPORTANT: Force using native HLS on iOS to keep audio playing on lock screen.
+      function shouldUseNativeHls() {
+        // If audio element canPlayType returns native support OR device is iOS -> prefer native
+        const native = audio.canPlayType('application/vnd.apple.mpegurl') !== '';
+        return isiOS || native;
+      }
+
+      function setupStream(url) {
+        destroyHls();
+
+        if (shouldUseNativeHls()) {
+          // Use native HLS: set src directly to .m3u8
+          audio.src = url;
+          audio.crossOrigin = "anonymous";
+          setStatus('Sử dụng HLS native (trên iOS/Trình duyệt hỗ trợ).');
+          return;
+        }
+
+        // Otherwise try hls.js (desktop/chrome/firefox)
+        if (window.Hls && Hls.isSupported()) {
+          hls = new Hls({ enableWorker: true });
+          hls.attachMedia(audio);
+          hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+            setStatus('Đang tải luồng (hls.js)…');
+            hls.loadSource(url);
+          });
+          hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            setStatus('Luồng sẵn sàng (hls.js).');
+          });
+          hls.on(Hls.Events.ERROR, function (event, data) {
+            console.error('HLS error', event, data);
+            if (data && data.fatal) {
+              setStatus('Lỗi phát: ' + (data.type || 'fatal'));
+              switch (data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                  setStatus('Lỗi mạng khi tải luồng, thử tải lại...');
+                  hls.startLoad();
+                  break;
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                  setStatus('Lỗi media; thử phục hồi.');
+                  hls.recoverMediaError();
+                  break;
+                default:
+                  destroyHls();
+                  break;
+              }
             }
-        };
+          });
+        } else {
+          // fallback: set src and hope browser plays it
+          audio.src = url;
+          setStatus('Không có hls.js; gán src trực tiếp.');
+        }
+      }
 
-        // Lần đầu bấm nút phát: phát kênh đang chọn, ẩn mờ nút luôn
-        playBtn.onclick = function () {
-            audio.src = radioSelect.value;
-            audio.load();
-            audio.play();
-            isStarted = true;
-            playBtn.disabled = true;
-        };
-    </script>
+      async function startPlayback() {
+        try {
+          await audio.play();
+          isPlaying = true;
+          playBtn.textContent = 'Tạm dừng';
+          playBtn.setAttribute('aria-pressed', 'true');
+          setStatus('Đang phát');
+        } catch (err) {
+          console.warn('Play blocked', err);
+          setStatus('Không thể tự động phát do chính sách trình duyệt; bấm lại để phát.');
+        }
+      }
+
+      function pausePlayback() {
+        try { audio.pause(); } catch(e) {}
+        isPlaying = false;
+        playBtn.textContent = 'Phát';
+        playBtn.setAttribute('aria-pressed', 'false');
+        setStatus('Đã tạm dừng');
+      }
+
+      // initial setup
+      setupStream(radioSelect.value);
+
+      // change channel
+      radioSelect.addEventListener('change', function () {
+        const url = radioSelect.value;
+        const name = radioSelect.options[radioSelect.selectedIndex].text;
+        stationNameEl.textContent = name;
+        setStatus('Đang chuyển kênh…');
+        setupStream(url);
+        if (isPlaying) startPlayback();
+      });
+
+      playBtn.addEventListener('click', function () {
+        if (!isPlaying) {
+          setupStream(radioSelect.value);
+          startPlayback();
+        } else {
+          pausePlayback();
+        }
+      });
+
+      // sync UI with native controls
+      audio.addEventListener('play', function () {
+        isPlaying = true;
+        playBtn.textContent = 'Tạm dừng';
+        playBtn.setAttribute('aria-pressed', 'true');
+        setStatus('Đang phát');
+      });
+      audio.addEventListener('pause', function () {
+        isPlaying = false;
+        playBtn.textContent = 'Phát';
+        playBtn.setAttribute('aria-pressed', 'false');
+        setStatus('Đã tạm dừng');
+      });
+      audio.addEventListener('waiting', function () { setStatus('Đang đệm...'); });
+      audio.addEventListener('stalled', function () { setStatus('Luồng bị tạm dừng (stalled).'); });
+      audio.addEventListener('error', function (e) {
+        console.error('Audio element error', e);
+        setStatus('Lỗi chơi luồng. Kiểm tra CORS / URL luồng.');
+      });
+
+      window.addEventListener('beforeunload', function () { destroyHls(); });
+    })();
+  </script>
 </body>
 </html>
